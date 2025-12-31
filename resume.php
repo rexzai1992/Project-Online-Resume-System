@@ -90,11 +90,6 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                         <?php if ($profile && $profile['phone']): ?>
                             <span class="resume-contact-item"><?= e($profile['phone']) ?></span>
                         <?php endif; ?>
-                        <?php if ($profile && $profile['linkedin_url']): ?>
-                            <span class="resume-contact-item">
-                                <a href="<?= e($profile['linkedin_url']) ?>" target="_blank">LinkedIn</a>
-                            </span>
-                        <?php endif; ?>
                     </div>
                 </header>
 
