@@ -411,10 +411,15 @@ $flash = getFlash();
             document.getElementById('certificationModal').classList.add('active');
         }
 
-        document.getElementById('certificationModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
+        // Close modal on overlay click
+        var certModal = document.getElementById('certificationModal');
+        if (certModal) {
+            certModal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
 
+        // Close modal on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
         });

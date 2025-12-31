@@ -467,9 +467,12 @@ $flash = getFlash();
         }
 
         // Close modal on overlay click
-        document.getElementById('experienceModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
+        var expModal = document.getElementById('experienceModal');
+        if (expModal) {
+            expModal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
 
         // Close modal on Escape key
         document.addEventListener('keydown', function(e) {

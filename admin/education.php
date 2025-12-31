@@ -428,10 +428,15 @@ $flash = getFlash();
             document.getElementById('educationModal').classList.add('active');
         }
 
-        document.getElementById('educationModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
+        // Close modal on overlay click
+        var eduModal = document.getElementById('educationModal');
+        if (eduModal) {
+            eduModal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
 
+        // Close modal on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
         });

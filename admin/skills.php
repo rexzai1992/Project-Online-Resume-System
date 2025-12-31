@@ -414,10 +414,15 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
             document.getElementById('skillModal').classList.add('active');
         }
 
-        document.getElementById('skillModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
+        // Close modal on overlay click
+        var skillModal = document.getElementById('skillModal');
+        if (skillModal) {
+            skillModal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
 
+        // Close modal on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
         });
