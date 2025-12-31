@@ -262,6 +262,8 @@
 }
 
 .contact-grid {
+    display: flex;
+    flex-direction: column;
     max-width: 800px;
     margin: var(--space-8) auto 0;
 }
@@ -271,6 +273,7 @@
     justify-content: center;
     gap: var(--space-6);
     margin-bottom: var(--space-6);
+    flex-wrap: wrap;
 }
 
 .contact-row:last-child {
@@ -278,6 +281,7 @@
 }
 
 .contact-item {
+    min-width: 180px;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -426,8 +430,9 @@
         font-size: var(--text-base);
     }
 
-    .contact-grid {
-        grid-template-columns: 1fr;
+    .contact-row {
+        flex-direction: column;
+        align-items: center;
     }
 }
 
