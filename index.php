@@ -178,11 +178,11 @@ $educations = getEducations();
                 <input type="hidden" name="csrf_token" value="<?= e(generateCSRFToken()) ?>">
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
-                    <input type="email" name="email" class="form-input" placeholder="admin@gmail.com" required>
+                    <input type="email" name="email" class="form-input" placeholder="admin@gmail.com" autocomplete="email" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-input" placeholder="Enter password" required>
+                    <input type="password" name="password" class="form-input" placeholder="Enter password" autocomplete="current-password" required>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;" id="loginBtn">Sign In</button>
             </form>

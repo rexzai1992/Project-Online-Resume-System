@@ -63,13 +63,15 @@ function validateForm(form) {
     return isValid;
 }
 
-// Alert auto-dismiss
-document.querySelectorAll('.alert').forEach(alert => {
-    setTimeout(() => {
-        alert.style.transition = 'opacity 0.5s ease';
-        alert.style.opacity = '0';
-        setTimeout(() => alert.remove(), 500);
-    }, 5000);
+// Alert auto-dismiss (only visible alerts, not modal errors)
+document.querySelectorAll('.alert:not([style*="display: none"])').forEach(alert => {
+    if (alert.offsetParent !== null) { // Check if visible
+        setTimeout(() => {
+            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        }, 5000);
+    }
 });
 
 // Confirm delete
