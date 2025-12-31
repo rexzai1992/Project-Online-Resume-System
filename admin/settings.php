@@ -121,6 +121,13 @@ $currentEmail = getCurrentUserEmail();
                     <h1 class="page-title">Settings</h1>
                 </div>
                 <div class="topbar-right">
+                    <a href="../resume.php" class="topbar-btn" target="_blank">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span>View Resume</span>
+                    </a>
                     <a href="logout.php" class="topbar-btn logout-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>

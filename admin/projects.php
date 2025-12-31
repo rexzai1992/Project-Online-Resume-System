@@ -216,6 +216,13 @@ $flash = getFlash();
                     <h1 class="page-title">Projects</h1>
                 </div>
                 <div class="topbar-right">
+                    <a href="../resume.php" class="topbar-btn" target="_blank">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span>View Resume</span>
+                    </a>
                     <a href="logout.php" class="topbar-btn logout-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
