@@ -316,12 +316,12 @@ $flash = getFlash();
                                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                     </svg>
                                                 </button>
-                                                <a href="?action=delete&id=<?= $exp['id'] ?>" class="table-btn delete" title="Delete" onclick="return confirm('Delete this experience?')">
+                                                <button type="button" class="table-btn delete" title="Delete" onclick="confirmDelete(<?= $exp['id'] ?>, '<?= e($exp['company_name']) ?>')">
                                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                         <polyline points="3 6 5 6 21 6"></polyline>
                                                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                                                     </svg>
-                                                </a>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -351,6 +351,34 @@ $flash = getFlash();
                 <?php endif; ?>
             </div>
         </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" style="margin-bottom: var(--space-4);">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <p style="margin-bottom: var(--space-2);">Are you sure you want to delete</p>
+                <p style="font-weight: 600; color: var(--gray-900);" id="deleteItemName"></p>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteItem()">Delete</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal -->
@@ -476,8 +504,39 @@ $flash = getFlash();
 
         // Close modal on Escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                closeModal();
+                closeDeleteModal();
+            }
         });
+
+        // Delete modal functions
+        var deleteId = null;
+
+        function confirmDelete(id, name) {
+            deleteId = id;
+            document.getElementById('deleteItemName').textContent = '"' + name + '"?';
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            deleteId = null;
+        }
+
+        function deleteItem() {
+            if (deleteId) {
+                window.location.href = '?action=delete&id=' + deleteId;
+            }
+        }
+
+        // Close delete modal on overlay click
+        var delModal = document.getElementById('deleteModal');
+        if (delModal) {
+            delModal.addEventListener('click', function(e) {
+                if (e.target === this) closeDeleteModal();
+            });
+        }
 
         <?php if ($editData): ?>
         // Auto-open modal for edit
