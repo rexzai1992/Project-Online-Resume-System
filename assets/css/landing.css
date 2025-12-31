@@ -262,11 +262,19 @@
 }
 
 .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-6);
     max-width: 800px;
     margin: var(--space-8) auto 0;
+}
+
+.contact-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.contact-row:last-child {
+    margin-bottom: 0;
 }
 
 .contact-item {
