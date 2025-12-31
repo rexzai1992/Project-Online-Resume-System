@@ -231,8 +231,8 @@ $flash = getFlash();
                                 <input type="url" id="linkedin_url" name="linkedin_url" class="form-input" value="<?= e($profile['linkedin_url'] ?? '') ?>" placeholder="https://linkedin.com/in/yourprofile">
                             </div>
                             <div class="form-group">
-                                <label for="website_url" class="form-label">Website URL</label>
-                                <input type="url" id="website_url" name="website_url" class="form-input" value="<?= e($profile['website_url'] ?? '') ?>" placeholder="https://yourwebsite.com">
+                                <label for="website_url" class="form-label">GitHub URL</label>
+                                <input type="url" id="website_url" name="website_url" class="form-input" value="<?= e($profile['website_url'] ?? '') ?>" placeholder="https://github.com/yourusername">
                             </div>
                         </div>
                     </div>
