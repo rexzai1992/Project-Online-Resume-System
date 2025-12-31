@@ -486,6 +486,11 @@ function uploadProfileImage($file) {
         return ['error' => 'File too large. Maximum size is 5MB.'];
     }
 
+    // Create uploads directory if it doesn't exist
+    if (!is_dir(UPLOADS_PATH)) {
+        mkdir(UPLOADS_PATH, 0755, true);
+    }
+
     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $filename = 'profile_' . time() . '.' . $extension;
     $destination = UPLOADS_PATH . $filename;
