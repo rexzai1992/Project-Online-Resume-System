@@ -41,7 +41,8 @@ $educations = getEducations();
     <!-- Stats Section -->
     <section class="stats-section">
         <div class="container">
-            <div class="stats-grid">
+            <!-- Row 1: 2 items centered -->
+            <div class="stats-row stats-row-2">
                 <div class="stat-item">
                     <div class="stat-number"><?= $stats['experiences'] ?>+</div>
                     <div class="stat-label">Work Experience</div>
@@ -50,6 +51,9 @@ $educations = getEducations();
                     <div class="stat-number"><?= $stats['education'] ?></div>
                     <div class="stat-label">Education</div>
                 </div>
+            </div>
+            <!-- Row 2: 3 items centered -->
+            <div class="stats-row stats-row-3">
                 <div class="stat-item">
                     <div class="stat-number"><?= $stats['skills'] ?>+</div>
                     <div class="stat-label">Skills</div>

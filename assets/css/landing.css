@@ -176,6 +176,25 @@
     margin: 0 auto;
 }
 
+.stats-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+    margin-bottom: var(--space-6);
+}
+
+.stats-row:last-child {
+    margin-bottom: 0;
+}
+
+.stats-row-2 {
+    gap: var(--space-16);
+}
+
+.stats-row-3 {
+    gap: var(--space-12);
+}
+
 .stat-item {
     text-align: center;
     padding: var(--space-4);
@@ -373,6 +392,15 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .stats-row {
+        gap: var(--space-6);
+    }
+
+    .stats-row-2,
+    .stats-row-3 {
+        gap: var(--space-6);
+    }
+
     .stat-number {
         font-size: var(--text-2xl);
     }
@@ -413,5 +441,14 @@
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-4);
+    }
+
+    .stats-row {
+        flex-wrap: wrap;
+        gap: var(--space-4);
+    }
+
+    .stats-row .stat-item {
+        min-width: 100px;
     }
 }
