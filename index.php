@@ -33,7 +33,7 @@ $educations = getEducations();
 
                 <div class="hero-buttons">
                     <a href="resume.php" class="hero-btn hero-btn-primary">View Resume</a>
-                    <a href="resume.php?print=1" class="hero-btn hero-btn-outline" onclick="window.open(this.href); setTimeout(function(){ window.print(); }, 500); return false;">Download PDF</a>
+                    <a href="resume.php" class="hero-btn hero-btn-outline">Download PDF</a>
                 </div>
             </div>
         </div>
