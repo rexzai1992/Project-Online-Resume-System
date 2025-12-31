@@ -16,6 +16,7 @@ requireAuth();
 // Get dashboard statistics
 $stats = getDashboardStats();
 $profile = getProfile();
+$experiences = getExperiences(); // For timeline chart
 
 // Get flash message
 $flash = getFlash();
@@ -146,6 +147,69 @@ $flash = getFlash();
                         </div>
                     </div>
                 </div>
+
+                <!-- Career Timeline -->
+                <?php if (!empty($experiences)): ?>
+                <div class="timeline-section">
+                    <h3 class="section-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Career Timeline
+                    </h3>
+                    <?php
+                    // Calculate timeline range
+                    $minYear = date('Y');
+                    $maxYear = date('Y');
+                    foreach ($experiences as $exp) {
+                        $startYear = (int)date('Y', strtotime($exp['start_date']));
+                        $endYear = $exp['end_date'] ? (int)date('Y', strtotime($exp['end_date'])) : (int)date('Y');
+                        if ($startYear < $minYear) $minYear = $startYear;
+                        if ($endYear > $maxYear) $maxYear = $endYear;
+                    }
+                    $minYear = $minYear - 1;
+                    $maxYear = $maxYear + 1;
+                    $totalYears = $maxYear - $minYear;
+                    ?>
+                    <div class="timeline-container">
+                        <!-- Year markers -->
+                        <div class="timeline-years">
+                            <?php for ($year = $minYear; $year <= $maxYear; $year++): ?>
+                                <span class="timeline-year"><?= $year ?></span>
+                            <?php endfor; ?>
+                        </div>
+
+                        <!-- Timeline bars -->
+                        <div class="timeline-bars">
+                            <?php foreach ($experiences as $exp):
+                                $startYear = (int)date('Y', strtotime($exp['start_date']));
+                                $startMonth = (int)date('m', strtotime($exp['start_date']));
+                                $endYear = $exp['end_date'] ? (int)date('Y', strtotime($exp['end_date'])) : (int)date('Y');
+                                $endMonth = $exp['end_date'] ? (int)date('m', strtotime($exp['end_date'])) : (int)date('m');
+
+                                // Calculate position and width as percentage
+                                $startPos = (($startYear - $minYear) + ($startMonth - 1) / 12) / $totalYears * 100;
+                                $endPos = (($endYear - $minYear) + ($endMonth) / 12) / $totalYears * 100;
+                                $width = $endPos - $startPos;
+                            ?>
+                            <div class="timeline-item">
+                                <div class="timeline-bar <?= $exp['is_current'] ? 'current' : '' ?>"
+                                     style="left: <?= $startPos ?>%; width: <?= $width ?>%;">
+                                    <div class="timeline-info">
+                                        <strong><?= e($exp['company_name']) ?></strong>
+                                        <span><?= e($exp['job_title']) ?></span>
+                                        <?php if ($exp['is_current']): ?>
+                                            <span class="badge-current">Current</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
 
             </div>
         </main>

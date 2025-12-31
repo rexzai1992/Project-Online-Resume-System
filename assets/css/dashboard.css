@@ -586,3 +586,132 @@
         display: none;
     }
 }
+
+/* =====================================================
+   Career Timeline Chart
+   ===================================================== */
+.timeline-section {
+    background: var(--white);
+    border-radius: var(--rounded-lg);
+    padding: var(--space-6);
+    margin-top: var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.timeline-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 var(--space-6) 0;
+}
+
+.timeline-section .section-title svg {
+    color: var(--primary);
+}
+
+.timeline-container {
+    position: relative;
+    padding: var(--space-4) 0;
+}
+
+.timeline-years {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--space-2);
+    margin-bottom: var(--space-4);
+    border-bottom: 2px solid var(--gray-200);
+    padding-bottom: var(--space-3);
+}
+
+.timeline-year {
+    font-size: var(--text-sm);
+    color: var(--gray-500);
+    font-weight: 500;
+}
+
+.timeline-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    position: relative;
+}
+
+.timeline-item {
+    position: relative;
+    height: 60px;
+}
+
+.timeline-bar {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    border-radius: var(--rounded-md);
+    padding: var(--space-2) var(--space-3);
+    display: flex;
+    align-items: center;
+    min-width: 150px;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.timeline-bar:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.timeline-bar.current {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.timeline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--white);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.timeline-info strong {
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.timeline-info span {
+    font-size: var(--text-xs);
+    opacity: 0.9;
+}
+
+.badge-current {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: var(--rounded-full);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: fit-content;
+}
+
+/* Timeline responsive */
+@media (max-width: 768px) {
+    .timeline-years {
+        font-size: var(--text-xs);
+    }
+
+    .timeline-bar {
+        min-width: 100px;
+    }
+
+    .timeline-info strong {
+        font-size: var(--text-xs);
+    }
+
+    .timeline-info span {
+        font-size: 10px;
+    }
+}
