@@ -305,13 +305,13 @@ $flash = getFlash();
 
                     <?php if ($totalPages > 1): ?>
                         <div class="pagination">
-                            <a href="?page=<?= $currentPage - 1 ?>" class="pagination-btn <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+                            <a href="?page=<?= ((int)$currentPage) - 1 ?>" class="pagination-btn <?= (int)$currentPage <= 1 ? 'disabled' : '' ?>">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                             </a>
                             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                                 <a href="?page=<?= $i ?>" class="pagination-btn <?= $i === $currentPage ? 'active' : '' ?>"><?= $i ?></a>
                             <?php endfor; ?>
-                            <a href="?page=<?= $currentPage + 1 ?>" class="pagination-btn <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
+                            <a href="?page=<?= ((int)$currentPage) + 1 ?>" class="pagination-btn <?= (int)$currentPage >= (int)$totalPages ? 'disabled' : '' ?>">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </a>
                         </div>
