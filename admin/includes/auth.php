@@ -20,8 +20,8 @@ function requireAuth() {
         // Store the requested URL for redirect after login
         $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 
-        // Redirect to login page
-        header('Location: login.php');
+        // Redirect to landing page (has login popup)
+        header('Location: ../index.php');
         exit;
     }
 
@@ -39,7 +39,7 @@ function requireAuth() {
             'message' => 'Your session has expired. Please log in again.'
         ];
 
-        header('Location: login.php');
+        header('Location: ../index.php');
         exit;
     }
 

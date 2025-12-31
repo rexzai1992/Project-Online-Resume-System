@@ -17,6 +17,6 @@ $_SESSION['flash'] = [
     'message' => 'You have been logged out successfully.'
 ];
 
-// Redirect to login page
-header('Location: login.php');
+// Redirect to landing page
+header('Location: ../index.php');
 exit;
