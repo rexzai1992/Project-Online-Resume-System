@@ -62,4 +62,17 @@ document.querySelectorAll('form').forEach(form => {
 });
 
 // Easter egg
-console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
+console.log(`%c
+┌─────────────────────────────────────────┐
+│   ██╗  ██╗██╗██╗   ██╗ ██████╗         │
+│   ██║ ██╔╝██║╚██╗ ██╔╝██╔═══██╗        │
+│   █████╔╝ ██║ ╚████╔╝ ██║   ██║        │
+│   ██╔═██╗ ██║  ╚██╔╝  ██║   ██║        │
+│   ██║  ██╗██║   ██║   ╚██████╔╝        │
+│   ╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝         │
+├─────────────────────────────────────────┤
+│   Created by Kiyoraka Ken              │
+│   Kiyo Software Tech Lab               │
+│   https://github.com/Kiyoraka          │
+└─────────────────────────────────────────┘
+`, 'color: #FFFFFF; font-family: monospace;');

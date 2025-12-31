@@ -6,7 +6,20 @@
  */
 
 // Easter egg in console
-console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
+console.log(`%c
+┌─────────────────────────────────────────┐
+│   ██╗  ██╗██╗██╗   ██╗ ██████╗         │
+│   ██║ ██╔╝██║╚██╗ ██╔╝██╔═══██╗        │
+│   █████╔╝ ██║ ╚████╔╝ ██║   ██║        │
+│   ██╔═██╗ ██║  ╚██╔╝  ██║   ██║        │
+│   ██║  ██╗██║   ██║   ╚██████╔╝        │
+│   ╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝         │
+├─────────────────────────────────────────┤
+│   Created by Kiyoraka Ken              │
+│   Kiyo Software Tech Lab               │
+│   https://github.com/Kiyoraka          │
+└─────────────────────────────────────────┘
+`, 'color: #FFFFFF; font-family: monospace;');
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

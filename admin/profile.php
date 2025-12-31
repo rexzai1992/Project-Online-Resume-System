@@ -286,8 +286,6 @@ $flash = getFlash();
             }
         }
 
-        // Easter egg
-        console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
     </script>
 </body>
 </html>
