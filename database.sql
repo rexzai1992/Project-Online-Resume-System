@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Default admin user (password: admin123)
 -- Password hash generated with password_hash('admin123', PASSWORD_DEFAULT)
 INSERT INTO users (email, password_hash) VALUES
-('admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+('admin@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
 
 -- =====================================================
 -- Table: profile (Personal Info - Single Row)
