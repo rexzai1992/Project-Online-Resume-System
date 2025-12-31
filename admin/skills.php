@@ -383,25 +383,41 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
+        // Sidebar toggle
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.querySelector('.sidebar-overlay').classList.toggle('active');
         }
 
+        // Open modal for adding new skill
         function openModal() {
-            document.getElementById('skillForm').reset();
-            document.getElementById('skillId').value = '';
-            document.getElementById('proficiencyLevel').value = 'Intermediate';
-            document.getElementById('modalTitle').textContent = 'Add Skill';
-            document.getElementById('submitBtn').textContent = 'Add Skill';
-            document.getElementById('skillModal').classList.add('active');
+            var form = document.getElementById('skillForm');
+            if (form) form.reset();
+
+            var skillId = document.getElementById('skillId');
+            if (skillId) skillId.value = '';
+
+            var profLevel = document.getElementById('proficiencyLevel');
+            if (profLevel) profLevel.value = 'Intermediate';
+
+            var title = document.getElementById('modalTitle');
+            if (title) title.textContent = 'Add Skill';
+
+            var btn = document.getElementById('submitBtn');
+            if (btn) btn.textContent = 'Add Skill';
+
+            var modal = document.getElementById('skillModal');
+            if (modal) modal.classList.add('active');
         }
 
+        // Close modal
         function closeModal() {
-            document.getElementById('skillModal').classList.remove('active');
+            var modal = document.getElementById('skillModal');
+            if (modal) modal.classList.remove('active');
         }
 
+        // Edit skill - populate modal with data
         function editSkill(data) {
             document.getElementById('skillId').value = data.id;
             document.getElementById('skillName').value = data.skill_name || '';
@@ -415,12 +431,14 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
         }
 
         // Close modal on overlay click
-        var skillModal = document.getElementById('skillModal');
-        if (skillModal) {
-            skillModal.addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var skillModal = document.getElementById('skillModal');
+            if (skillModal) {
+                skillModal.addEventListener('click', function(e) {
+                    if (e.target === this) closeModal();
+                });
+            }
+        });
 
         // Close modal on Escape key
         document.addEventListener('keydown', function(e) {
@@ -428,7 +446,9 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
         });
 
         <?php if ($editData): ?>
-        editSkill(<?= json_encode($editData) ?>);
+        document.addEventListener('DOMContentLoaded', function() {
+            editSkill(<?= json_encode($editData) ?>);
+        });
         <?php endif; ?>
 
         console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
