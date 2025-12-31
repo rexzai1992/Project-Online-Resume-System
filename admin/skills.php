@@ -251,7 +251,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
 
                 <div class="content-header">
                     <h3 class="content-title" style="font-size: var(--text-xl);">Your Skills (<?= $totalItems ?>)</h3>
-                    <button class="btn btn-primary" onclick="openModal()">
+                    <button class="btn btn-primary" id="addSkillBtn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: var(--space-2);">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -267,7 +267,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                             </svg>
                             <p>No skills added yet.</p>
-                            <button class="btn btn-primary" onclick="openModal()" style="margin-top: var(--space-4);">Add Your First Skill</button>
+                            <button class="btn btn-primary add-skill-btn" style="margin-top: var(--space-4);">Add Your First Skill</button>
                         </div>
                     </div>
                 <?php else: ?>
@@ -332,7 +332,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title" id="modalTitle">Add Skill</h3>
-                <button class="modal-close" onclick="closeModal()">
+                <button class="modal-close" id="closeModalBtn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -376,7 +376,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Add Skill</button>
                 </div>
             </form>
@@ -384,74 +384,102 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
     </div>
 
     <script type="text/javascript">
-        // Sidebar toggle
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.querySelector('.sidebar-overlay').classList.toggle('active');
-        }
+    (function() {
+        'use strict';
 
-        // Open modal for adding new skill
-        function openModal() {
-            var form = document.getElementById('skillForm');
-            if (form) form.reset();
-
-            var skillId = document.getElementById('skillId');
-            if (skillId) skillId.value = '';
-
-            var profLevel = document.getElementById('proficiencyLevel');
-            if (profLevel) profLevel.value = 'Intermediate';
-
-            var title = document.getElementById('modalTitle');
-            if (title) title.textContent = 'Add Skill';
-
-            var btn = document.getElementById('submitBtn');
-            if (btn) btn.textContent = 'Add Skill';
-
-            var modal = document.getElementById('skillModal');
-            if (modal) modal.classList.add('active');
-        }
-
-        // Close modal
-        function closeModal() {
-            var modal = document.getElementById('skillModal');
-            if (modal) modal.classList.remove('active');
-        }
-
-        // Edit skill - populate modal with data
-        function editSkill(data) {
-            document.getElementById('skillId').value = data.id;
-            document.getElementById('skillName').value = data.skill_name || '';
-            document.getElementById('category').value = data.category || '';
-            document.getElementById('proficiencyLevel').value = data.proficiency_level || 'Intermediate';
-            document.getElementById('displayOrder').value = data.display_order || 0;
-
-            document.getElementById('modalTitle').textContent = 'Edit Skill';
-            document.getElementById('submitBtn').textContent = 'Update Skill';
-            document.getElementById('skillModal').classList.add('active');
-        }
-
-        // Close modal on overlay click
+        // Wait for DOM to be ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Cache DOM elements
             var skillModal = document.getElementById('skillModal');
+            var skillForm = document.getElementById('skillForm');
+            var modalTitle = document.getElementById('modalTitle');
+            var submitBtn = document.getElementById('submitBtn');
+            var skillId = document.getElementById('skillId');
+            var skillName = document.getElementById('skillName');
+            var category = document.getElementById('category');
+            var proficiencyLevel = document.getElementById('proficiencyLevel');
+            var displayOrder = document.getElementById('displayOrder');
+
+            // Open modal function
+            function openModal() {
+                if (skillForm) skillForm.reset();
+                if (skillId) skillId.value = '';
+                if (proficiencyLevel) proficiencyLevel.value = 'Intermediate';
+                if (modalTitle) modalTitle.textContent = 'Add Skill';
+                if (submitBtn) submitBtn.textContent = 'Add Skill';
+                if (skillModal) skillModal.classList.add('active');
+            }
+
+            // Close modal function
+            function closeModal() {
+                if (skillModal) skillModal.classList.remove('active');
+            }
+
+            // Edit skill function
+            function editSkill(data) {
+                if (skillId) skillId.value = data.id;
+                if (skillName) skillName.value = data.skill_name || '';
+                if (category) category.value = data.category || '';
+                if (proficiencyLevel) proficiencyLevel.value = data.proficiency_level || 'Intermediate';
+                if (displayOrder) displayOrder.value = data.display_order || 0;
+                if (modalTitle) modalTitle.textContent = 'Edit Skill';
+                if (submitBtn) submitBtn.textContent = 'Update Skill';
+                if (skillModal) skillModal.classList.add('active');
+            }
+
+            // Make editSkill globally available for inline onclick on edit buttons
+            window.editSkill = editSkill;
+
+            // Add Skill button click
+            var addSkillBtn = document.getElementById('addSkillBtn');
+            if (addSkillBtn) {
+                addSkillBtn.addEventListener('click', openModal);
+            }
+
+            // Add Skill buttons with class (for empty state)
+            var addSkillBtns = document.querySelectorAll('.add-skill-btn');
+            addSkillBtns.forEach(function(btn) {
+                btn.addEventListener('click', openModal);
+            });
+
+            // Close modal button (X)
+            var closeModalBtn = document.getElementById('closeModalBtn');
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+            }
+
+            // Cancel button
+            var cancelBtn = document.getElementById('cancelBtn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeModal);
+            }
+
+            // Close modal on overlay click
             if (skillModal) {
                 skillModal.addEventListener('click', function(e) {
-                    if (e.target === this) closeModal();
+                    if (e.target === skillModal) closeModal();
                 });
             }
-        });
 
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
-        });
+            // Close modal on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
 
-        <?php if ($editData): ?>
-        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-open modal for edit mode
+            <?php if ($editData): ?>
             editSkill(<?= json_encode($editData) ?>);
-        });
-        <?php endif; ?>
+            <?php endif; ?>
 
-        console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
+            console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
+        });
+
+        // Sidebar toggle (needs to be global)
+        window.toggleSidebar = function() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        };
+    })();
     </script>
 </body>
 </html>
