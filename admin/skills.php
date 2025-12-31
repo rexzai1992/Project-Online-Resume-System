@@ -1,9 +1,8 @@
 <?php
 /**
  * Online Resume System - Admin Skills Management
- * CRUD with popup modal and pagination (table layout)
- *
- * ULTRATHINK #256 - Table Layout Redesign
+ * CRUD with popup modal and pagination
+ * FIXED: 2026-01-01 00:16 - PHP8 type cast fix
  */
 
 require_once __DIR__ . '/../includes/config.php';
@@ -60,18 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get all skills
 $allSkills = getSkills();
 $totalItems = count($allSkills);
 
-// Pagination settings
 $itemsPerPage = 5;
-$totalPages = ceil($totalItems / $itemsPerPage);
-$currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+$totalPages = (int)ceil($totalItems / $itemsPerPage);
+$currentPage = (int)(isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1);
 $offset = ($currentPage - 1) * $itemsPerPage;
 $skills = array_slice($allSkills, $offset, $itemsPerPage);
 
-// Check if editing
 $editData = null;
 if ($action === 'edit' && $id > 0) {
     $editData = getSkill($id);
@@ -144,7 +140,6 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
             padding: var(--space-2);
             color: var(--gray-500);
             border-radius: var(--radius);
-            transition: background 0.2s, color 0.2s;
         }
         .modal-close:hover {
             background: var(--gray-100);
@@ -181,7 +176,6 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
             font-size: var(--text-sm);
             border-radius: var(--radius);
             text-decoration: none;
-            transition: all 0.2s;
         }
         .pagination-btn:hover:not(.disabled):not(.active) {
             background: var(--gray-50);
@@ -245,13 +239,15 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
 
                 <?php if (!empty($errors)): ?>
                     <div class="alert alert-danger">
-                        <?php foreach ($errors as $error): ?><div><?= e($error) ?></div><?php endforeach; ?>
+                        <?php foreach ($errors as $error): ?>
+                            <div><?= e($error) ?></div>
+                        <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
 
                 <div class="content-header">
                     <h3 class="content-title" style="font-size: var(--text-xl);">Your Skills (<?= $totalItems ?>)</h3>
-                    <button class="btn btn-primary" id="addSkillBtn">
+                    <button class="btn btn-primary" onclick="openModal()">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: var(--space-2);">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -267,7 +263,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                             </svg>
                             <p>No skills added yet.</p>
-                            <button class="btn btn-primary add-skill-btn" style="margin-top: var(--space-4);">Add Your First Skill</button>
+                            <button class="btn btn-primary" onclick="openModal()" style="margin-top: var(--space-4);">Add Your First Skill</button>
                         </div>
                     </div>
                 <?php else: ?>
@@ -296,10 +292,16 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                                         <td>
                                             <div class="table-actions">
                                                 <button class="table-btn edit" title="Edit" onclick="editSkill(<?= htmlspecialchars(json_encode($skill), ENT_QUOTES, 'UTF-8') ?>)">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                    </svg>
                                                 </button>
                                                 <a href="?action=delete&id=<?= $skill['id'] ?>" class="table-btn delete" title="Delete" onclick="return confirm('Delete this skill?')">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    </svg>
                                                 </a>
                                             </div>
                                         </td>
@@ -309,16 +311,20 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                         </table>
                     </div>
 
-                    <?php if ($totalPages > 1): ?>
+                    <?php if ((int)$totalPages > 1): ?>
                         <div class="pagination">
-                            <a href="?page=<?= $currentPage - 1 ?>" class="pagination-btn <?= $currentPage <= 1 ? 'disabled' : '' ?>">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            <a href="?page=<?= ((int)$currentPage) - 1 ?>" class="pagination-btn <?= (int)$currentPage <= 1 ? 'disabled' : '' ?>">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
                             </a>
-                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                <a href="?page=<?= $i ?>" class="pagination-btn <?= $i === $currentPage ? 'active' : '' ?>"><?= $i ?></a>
+                            <?php for ($i = 1; $i <= (int)$totalPages; $i++): ?>
+                                <a href="?page=<?= $i ?>" class="pagination-btn <?= $i === (int)$currentPage ? 'active' : '' ?>"><?= $i ?></a>
                             <?php endfor; ?>
-                            <a href="?page=<?= $currentPage + 1 ?>" class="pagination-btn <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            <a href="?page=<?= ((int)$currentPage) + 1 ?>" class="pagination-btn <?= (int)$currentPage >= (int)$totalPages ? 'disabled' : '' ?>">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
                             </a>
                         </div>
                     <?php endif; ?>
@@ -332,7 +338,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title" id="modalTitle">Add Skill</h3>
-                <button class="modal-close" id="closeModalBtn">
+                <button class="modal-close" onclick="closeModal()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -347,7 +353,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Skill Name *</label>
-                            <input type="text" name="skill_name" id="skillName" class="form-input" placeholder="e.g., JavaScript, Python, Communication" required>
+                            <input type="text" name="skill_name" id="skillName" class="form-input" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Category</label>
@@ -376,110 +382,61 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Add Skill</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script type="text/javascript">
-    (function() {
-        'use strict';
-
-        // Wait for DOM to be ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cache DOM elements
-            var skillModal = document.getElementById('skillModal');
-            var skillForm = document.getElementById('skillForm');
-            var modalTitle = document.getElementById('modalTitle');
-            var submitBtn = document.getElementById('submitBtn');
-            var skillId = document.getElementById('skillId');
-            var skillName = document.getElementById('skillName');
-            var category = document.getElementById('category');
-            var proficiencyLevel = document.getElementById('proficiencyLevel');
-            var displayOrder = document.getElementById('displayOrder');
-
-            // Open modal function
-            function openModal() {
-                if (skillForm) skillForm.reset();
-                if (skillId) skillId.value = '';
-                if (proficiencyLevel) proficiencyLevel.value = 'Intermediate';
-                if (modalTitle) modalTitle.textContent = 'Add Skill';
-                if (submitBtn) submitBtn.textContent = 'Add Skill';
-                if (skillModal) skillModal.classList.add('active');
-            }
-
-            // Close modal function
-            function closeModal() {
-                if (skillModal) skillModal.classList.remove('active');
-            }
-
-            // Edit skill function
-            function editSkill(data) {
-                if (skillId) skillId.value = data.id;
-                if (skillName) skillName.value = data.skill_name || '';
-                if (category) category.value = data.category || '';
-                if (proficiencyLevel) proficiencyLevel.value = data.proficiency_level || 'Intermediate';
-                if (displayOrder) displayOrder.value = data.display_order || 0;
-                if (modalTitle) modalTitle.textContent = 'Edit Skill';
-                if (submitBtn) submitBtn.textContent = 'Update Skill';
-                if (skillModal) skillModal.classList.add('active');
-            }
-
-            // Make editSkill globally available for inline onclick on edit buttons
-            window.editSkill = editSkill;
-
-            // Add Skill button click
-            var addSkillBtn = document.getElementById('addSkillBtn');
-            if (addSkillBtn) {
-                addSkillBtn.addEventListener('click', openModal);
-            }
-
-            // Add Skill buttons with class (for empty state)
-            var addSkillBtns = document.querySelectorAll('.add-skill-btn');
-            addSkillBtns.forEach(function(btn) {
-                btn.addEventListener('click', openModal);
-            });
-
-            // Close modal button (X)
-            var closeModalBtn = document.getElementById('closeModalBtn');
-            if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', closeModal);
-            }
-
-            // Cancel button
-            var cancelBtn = document.getElementById('cancelBtn');
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', closeModal);
-            }
-
-            // Close modal on overlay click
-            if (skillModal) {
-                skillModal.addEventListener('click', function(e) {
-                    if (e.target === skillModal) closeModal();
-                });
-            }
-
-            // Close modal on Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeModal();
-            });
-
-            // Auto-open modal for edit mode
-            <?php if ($editData): ?>
-            editSkill(<?= json_encode($editData) ?>);
-            <?php endif; ?>
-
-            console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
-        });
-
-        // Sidebar toggle (needs to be global)
-        window.toggleSidebar = function() {
+    <script>
+        function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.querySelector('.sidebar-overlay').classList.toggle('active');
-        };
-    })();
+        }
+
+        function openModal() {
+            document.getElementById('skillForm').reset();
+            document.getElementById('skillId').value = '';
+            document.getElementById('proficiencyLevel').value = 'Intermediate';
+            document.getElementById('modalTitle').textContent = 'Add Skill';
+            document.getElementById('submitBtn').textContent = 'Add Skill';
+            document.getElementById('skillModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('skillModal').classList.remove('active');
+        }
+
+        function editSkill(data) {
+            document.getElementById('skillId').value = data.id;
+            document.getElementById('skillName').value = data.skill_name || '';
+            document.getElementById('category').value = data.category || '';
+            document.getElementById('proficiencyLevel').value = data.proficiency_level || 'Intermediate';
+            document.getElementById('displayOrder').value = data.display_order || 0;
+            document.getElementById('modalTitle').textContent = 'Edit Skill';
+            document.getElementById('submitBtn').textContent = 'Update Skill';
+            document.getElementById('skillModal').classList.add('active');
+        }
+
+        // Close modal on overlay click
+        var skillModal = document.getElementById('skillModal');
+        if (skillModal) {
+            skillModal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        <?php if ($editData): ?>
+        editSkill(<?= json_encode($editData) ?>);
+        <?php endif; ?>
+
+        console.log('%c Powered by Kiyo Software TechLab', 'color: #0047AB; font-size: 14px; font-weight: bold;');
     </script>
 </body>
 </html>
