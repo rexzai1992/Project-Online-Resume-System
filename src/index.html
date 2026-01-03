@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Resume System</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+    <div id="app">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div id="profileImage"></div>
+                    <h1 class="hero-name" id="fullName">Your Name</h1>
+                    <p class="hero-title" id="jobTitle">Professional Title</p>
+                    <div class="hero-buttons">
+                        <a href="/resume.html" class="hero-btn hero-btn-primary">View Resume</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-row stats-row-2">
+                    <div class="stat-item">
+                        <div class="stat-number"><span id="expCount">0</span>+</div>
+                        <div class="stat-label">Work Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="eduCount">0</div>
+                        <div class="stat-label">Education</div>
+                    </div>
+                </div>
+                <div class="stats-row stats-row-3">
+                    <div class="stat-item">
+                        <div class="stat-number"><span id="skillCount">0</span>+</div>
+                        <div class="stat-label">Skills</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="certCount">0</div>
+                        <div class="stat-label">Certifications</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="projectCount">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-section" id="summarySection" style="display: none;">
+            <div class="container">
+                <div class="summary-content">
+                    <h2 class="section-title">Professional Summary</h2>
+                    <p class="summary-text" id="summary"></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="summary-content">
+                    <h2 class="section-title">Get In Touch</h2>
+                </div>
+                <div class="contact-grid" id="contactGrid"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="loginModal" style="display: none;">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+            <div class="modal-header">
+                <div class="modal-logo">R</div>
+                <h2 class="modal-title">Admin Login</h2>
+                <p class="modal-subtitle">Sign in to manage your resume</p>
+            </div>
+            <div id="loginError" class="alert alert-danger" style="display: none;"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+        .modal-overlay[style*="flex"] {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--rounded-xl);
+            padding: var(--space-8);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+        }
+        .modal-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: none;
+            border: none;
+            font-size: var(--text-2xl);
+            color: var(--gray-400);
+            cursor: pointer;
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+        .modal-logo {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: var(--rounded-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin: 0 auto var(--space-4);
+        }
+        .modal-title {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-1);
+        }
+        .modal-subtitle {
+            color: var(--gray-500);
+            font-size: var(--text-sm);
+        }
+        .hero-image-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: var(--rounded-full);
+            background: var(--white);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            margin: 0 auto var(--space-6);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+        }
+        .hero-image {
+            width: 150px;
+            height: 150px;
+            border-radius: var(--rounded-full);
+            border: 4px solid var(--white);
+            object-fit: cover;
+            margin: 0 auto var(--space-6);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+        }
+    </style>
+
+    <script type="module" src="/js/landing.js"></script>
+</body>
+</html>
